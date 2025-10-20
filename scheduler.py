@@ -41,10 +41,20 @@ def main():
     print(unique_day_condition)
     ctl.add("base", [], unique_day_condition)
 
+    # Minimize rankings (smaller number, higher ranking)
+    ranking_directive = "#minimize { I,P,D : assigned(P,D), ranks_day(P,I,D) }."
+    print(ranking_directive)
+    ctl.add("base", [], ranking_directive)
+
+    # Show sum of rankings
+    sum_directive = "total_sum(S) :- S = #sum { I,P,D : assigned(P,D), ranks_day(P,I,D) }.\n#show total_sum/1."
+    print(sum_directive)
+    ctl.add("base", [], sum_directive)
+
     # Output format
-    show = "#show assigned/2."
-    print(show)
-    ctl.add("base", [], show)
+    show_directive = "#show assigned/2."
+    print(show_directive)
+    ctl.add("base", [], show_directive)
 
     # Ground the logic (prepare it for solving)
     ctl.ground([("base", [])])
