@@ -1,18 +1,14 @@
 {
   "Alex Carter": [
     "Tuesday",
-    "Friday",
     "Sunday",
     "Thursday",
     "Monday",
-    "Wednesday",
-    "Saturday"
+    "Wednesday"
   ],
   "Jordan Smith": [
     "Wednesday",
     "Monday",
-    "Friday",
-    "Saturday",
     "Sunday",
     "Thursday",
     "Tuesday"
@@ -21,26 +17,20 @@
     "Thursday",
     "Tuesday",
     "Sunday",
-    "Friday",
     "Monday",
-    "Saturday",
     "Wednesday"
   ],
   "Riley Johnson": [
-    "Friday",
     "Sunday",
     "Tuesday",
     "Monday",
-    "Saturday",
     "Thursday",
     "Wednesday"
   ],
   "Casey Lee": [
-    "Saturday",
     "Monday",
     "Thursday",
     "Wednesday",
-    "Friday",
     "Sunday",
     "Tuesday"
   ],
@@ -48,45 +38,35 @@
     "Sunday",
     "Thursday",
     "Tuesday",
-    "Friday",
     "Monday",
-    "Wednesday",
-    "Saturday"
+    "Wednesday"
   ],
   "Jamie Rivera": [
     "Monday",
-    "Saturday",
     "Thursday",
-    "Friday",
     "Wednesday",
     "Tuesday",
     "Sunday"
   ],
   "Drew Kim": [
     "Tuesday",
-    "Saturday",
     "Thursday",
     "Sunday",
     "Monday",
-    "Wednesday",
-    "Friday"
+    "Wednesday"
   ],
   "Parker Davis": [
     "Thursday",
     "Monday",
     "Sunday",
     "Wednesday",
-    "Friday",
-    "Saturday",
     "Tuesday"
   ],
   "Quinn Bailey": [
     "Wednesday",
     "Sunday",
-    "Friday",
     "Tuesday",
     "Thursday",
-    "Monday",
-    "Saturday"
+    "Monday"
   ]
 }
