@@ -16,6 +16,65 @@ def main():
     # Define a Clingo control object
     ctl = clingo.Control()
 
+    # Add all of our input and logic to clingo
+    prepare_ctl(ctl, id_name, input_data)
+
+    # Ground the logic (prepare it for solving)
+    ctl.ground([("base", [])])
+
+    # Get the raw answer sets from ctl
+    raw_outputs = get_raw_outputs(ctl)
+
+    # Get the formatted version, and only the best answer set, along with the sum
+    person_to_day, ranking_sum = get_format_outputs(raw_outputs, id_name)
+
+    logging.info(f"Assigned schedule: {person_to_day}")
+    logging.info(f"Sum of rankings (lower is better): {ranking_sum}")
+
+def get_raw_outputs(ctl) -> list:
+    """
+    Gets the solutions for a Clingo Control Object
+    Must be already grounded
+    :param ctl: Clingo Control Object
+    :return: List of outputs
+    """
+    outputs = [] # List to return
+    with ctl.solve(yield_=True) as handle:
+        # For every answer set
+        for model in handle:
+            # Log output and append to our list
+            logging.debug(f"Answer set:{model.symbols(shown=True)}")
+            outputs.append([str(atom) for atom in model.symbols(shown=True)])
+
+    return outputs
+
+def get_format_outputs(raw_outputs: list, id_name: dict) -> (dict,int):
+    """
+    Gets a formatted version of the output
+    Only returns the best option (last one) and the sum of the rankings
+    :param raw_outputs: List of answer sets
+    :param id_name: Dictionary mapping ids (internally used) to names
+    :return: Dictionary of Name to Day mappings (the schedule), and sum of rankings
+    """
+    person_to_day = {}
+    ranking_sum = 0
+    for atom in raw_outputs[-1]:
+        if "total_sum" in atom:
+            ranking_sum = int(atom[len("total_sum("):-1])
+            continue
+        content = atom[len("assigned("):-1]
+        pid, day = content.split(",")
+        person_to_day[id_name[pid]] = day
+    return person_to_day, ranking_sum
+
+def prepare_ctl(ctl, id_name, input_data) -> None:
+    """
+    Prepares the Clingo Control Object with our input data
+    :param ctl: Clingo Control Object to prepare
+    :param id_name: Dictionary mapping ids (internally used) to names
+    :param input_data: Dictionary of input data (from json file)
+    :return: Nothing
+    """
     # Add structure of days
     day_fact = "day(sunday; monday; tuesday; wednesday; thursday; ). \n"
     logging.debug(day_fact)
@@ -60,22 +119,11 @@ def main():
     logging.debug(show_directive)
     ctl.add("base", [], show_directive)
 
-    # Ground the logic (prepare it for solving)
-    ctl.ground([("base", [])])
-
-    # Show every answer set
-    with ctl.solve(yield_=True) as handle:
-        for model in handle:
-            on_model(model)
-    # Show one answer set
-    #ctl.solve(on_model=on_model)
-
-# Print model
-def on_model(model):
-    logging.info(f"Answer:{model.symbols(shown=True)}")
-
-
 def take_input() -> dict:
+    """
+    Opens and reads the input json file
+    :return: Dictionary of input data
+    """
     json_file = open('input.json', 'r')
     schedule = json.load(json_file)
     return schedule
