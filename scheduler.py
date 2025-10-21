@@ -1,6 +1,25 @@
 import json
 import clingo
 import logging
+from flask import Flask, request, render_template, jsonify
+
+app = Flask(__name__)
+
+@app.route('/', methods=['GET', 'POST'])
+def index():
+    if request.method == 'GET':
+        return """
+        <form method="POST">
+        <input type="text" name="data" />
+        <input type="submit" />
+        </form>"""
+    elif request.method == 'POST':
+        user_input = request.form['data']
+        result = process_input(user_input)
+        return f"Result: {result}"
+
+def process_input(user_input):
+    print(user_input)
 
 
 def main():
@@ -129,4 +148,5 @@ def take_input() -> dict:
     return schedule
 
 if __name__ == '__main__':
-    main()
+    app.run(debug=True)
+    #main()
